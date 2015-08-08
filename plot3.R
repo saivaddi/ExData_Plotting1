@@ -9,9 +9,13 @@ endDate <- strptime("2007-02-02 23:59:59", "%Y-%m-%d %H:%M:%S")
 
 eeData <- subset(elecData, (Date >= beginDate) & (Date <= endDate))
 
-xlabel <- toTitleCase(gsub("_", " ", names(eeData)[3]))
-xlabel <- paste(xlabel, "(kilowatts)")
+legNames = names(eeData)[7:9]
 
-png(filename = "plot1.png", width=480, height=480)
-hist(as.numeric(eeData$Global_active_power),col='red',xlab=xlabel,main="Global Active Power")
+png(filename = "plot3.png", width=480, height=480)
+with(eeData, {
+  plot(eeData$Date, eeData$Sub_metering_1, type='l', xlab = '', ylab = 'Energy Sub Metering')
+  lines(eeData$Date, eeData$Sub_metering_2, col = 'red')
+  lines(eeData$Date, eeData$Sub_metering_3, col = 'blue')
+  legend("topright", legNames)
+})
 dev.off()
